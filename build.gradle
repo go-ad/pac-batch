@@ -1,0 +1,69 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.micronaut.application") version "3.4.1"
+}
+
+version = "0.1"
+group = "com.cainz"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    implementation("com.amazonaws:aws-lambda-java-events:3.11.0")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.aws:micronaut-aws-sdk-v2")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    implementation("software.amazon.awssdk:dynamodb")
+    compileOnly("org.projectlombok:lombok")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    compileOnly("org.graalvm.nativeimage:svm")
+    compileOnly("com.github.ksuid:ksuid:1.1.1")
+    implementation("net.coobird:thumbnailator:0.4.17")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("software.amazon.awssdk:s3")
+    implementation("io.micronaut.aws:micronaut-function-aws")
+
+    implementation("io.micronaut.aws:micronaut-function-aws-custom-runtime")
+
+
+    implementation("com.amazonaws:aws-lambda-java-events:3.11.0")
+
+
+
+
+}
+
+
+application {
+    mainClass.set("com.cainz.FunctionLambdaRuntime")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("11")
+    targetCompatibility = JavaVersion.toVersion("11")
+}
+
+micronaut {
+    runtime("lambda_provided")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.cainz.*")
+    }
+}
+
+
+tasks.named("dockerfileNative") {
+    args(
+        "-XX:MaximumHeapSizePercent=80",
+        "-Dio.netty.allocator.numDirectArenas=0",
+        "-Dio.netty.noPreferDirect=true"
+    )
+}
+
+
+

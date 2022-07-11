@@ -1,0 +1,6 @@
+applicationType: function
+defaultPackage: com.cainz
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, aws-lambda, aws-lambda-custom-runtime, aws-lambda-s3-event-notification, aws-v2-sdk, dynamodb, graalvm, gradle, http-client, jackson-databind, java, junit, logback, lombok, micronaut-build, readme, shade, yaml]
